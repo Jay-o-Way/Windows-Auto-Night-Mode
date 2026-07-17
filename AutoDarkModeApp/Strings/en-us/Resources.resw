@@ -1129,4 +1129,7 @@ Please note: This may introduce slight to moderate lag on some systems during th
     <value>Release notes</value>
     <comment>text on hyperlink (noun)</comment>
   </data>
+  <data name="LatestRelease" xml:space="preserve">
+    <value>Latest official release</value>
+  </data>
 </root>

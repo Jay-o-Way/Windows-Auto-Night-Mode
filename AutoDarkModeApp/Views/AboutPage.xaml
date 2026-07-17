@@ -39,16 +39,21 @@
                 <controls:SettingsExpander HeaderIcon="{ui:BitmapIcon Source=/Assets/AutoDarkModeIcon.ico}" IsExpanded="True">
                     <controls:SettingsExpander.Header>
                         <StackPanel Spacing="4">
-                            <TextBlock>
+                            <TextBlock Margin="0,0,0,8">
                                 <Run Text="{helpers:ResourceString Name=Version}" />
                                 <Run Text="{x:Bind ViewModel.SvcVersionText}" />
                             </TextBlock>
-                            <TextBlock>
-                                <Run x:Name="ReleaseDateTextBlock" />
+                            <TextBlock Text="{helpers:ResourceString Name=LatestRelease}" />
+                            <TextBlock Margin="12,0,0,0">
+                                <Run>•</Run>
+                                <Run x:Name="ReleaseVersionTextBlock" />
                                 <Run>-</Run>
                                 <Run x:Name="ReleaseTypeTextBlock" />
+                                <Run>-</Run>
+                                <Run x:Name="ReleaseDateTextBlock" />
                             </TextBlock>
-                            <TextBlock x:Name="ReleaseUrlTextBlock">
+                            <TextBlock Margin="12,0,0,0">
+                                <Run>•</Run>
                                 <Hyperlink x:Name="ReleaseUrlHyperlink">
                                     <Run Text="{helpers:ResourceString Name=ReleaseNotes}" />
                                 </Hyperlink>

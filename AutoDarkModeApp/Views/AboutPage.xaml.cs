@@ -25,18 +25,12 @@ public sealed partial class AboutPage : Page
     {
         var svcVersion = ViewModel?.SvcVersionText ?? string.Empty;
         var release = await _releaseService.GetReleaseForVersionAsync(svcVersion);
-        if (release == null)
+        if (release != null)
         {
             //ReleaseNameTextBlock.Text = release.Name;
-            ReleaseDateTextBlock.Text = "No release information available";
-            ReleaseTypeTextBlock.Text = "Type: Unknown";
-            ReleaseUrlHyperlink.NavigateUri = new Uri("");
-        }
-        else
-        {
-            //ReleaseNameTextBlock.Text = release.Name;
+            ReleaseVersionTextBlock.Text = release.TagName;
             ReleaseDateTextBlock.Text = release.PublishedAt.ToString("yyyy-MM-dd");
-            ReleaseTypeTextBlock.Text = release.IsPrerelease ? "Pre-release (Beta)" : "Release (Stable)";
+            ReleaseTypeTextBlock.Text = release.IsPrerelease ? "Beta" : "Stable";
             ReleaseUrlHyperlink.NavigateUri = new Uri(release.HtmlUrl);
         }
     }
