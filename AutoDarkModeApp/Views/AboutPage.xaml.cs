@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using AutoDarkModeApp.ViewModels;
+using AutoDarkModeApp.Services;
 
 using AdmExtensions = AutoDarkModeLib.Helper;
 
@@ -9,6 +10,7 @@ namespace AutoDarkModeApp.Views;
 public sealed partial class AboutPage : Page
 {
     private readonly IErrorService errorService = App.GetService<IErrorService>();
+    private readonly IGitHubReleaseService _releaseService = new GitHubReleaseService();
 
     public AboutViewModel ViewModel { get; }
 
@@ -16,6 +18,21 @@ public sealed partial class AboutPage : Page
     {
         ViewModel = App.GetService<AboutViewModel>();
         InitializeComponent();
+        LoadReleaseInfoAsync();
+    }
+
+    private async void LoadReleaseInfoAsync()
+    {
+        var svcVersion = ViewModel?.SvcVersionText ?? string.Empty;
+        var release = await _releaseService.GetReleaseForVersionAsync(svcVersion);
+        if (release != null)
+        {
+            //ReleaseNameTextBlock.Text = release.Name;
+            ReleaseVersionTextBlock.Text = release.TagName;
+            ReleaseDateTextBlock.Text = release.PublishedAt.ToString("yyyy-MM-dd");
+            ReleaseTypeTextBlock.Text = release.IsPrerelease ? "Beta" : "Stable";
+            ReleaseUrlHyperlink.NavigateUri = new Uri(release.HtmlUrl);
+        }
     }
 
     private void CopyVersionInfoButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -144,4 +161,5 @@ public sealed partial class AboutPage : Page
             errorService.ShowErrorMessage(ex, App.MainWindow.Content.XamlRoot, "AboutPage_GoToDocumentation");
         }
     }
+
 }

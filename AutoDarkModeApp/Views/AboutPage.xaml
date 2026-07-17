@@ -36,17 +36,35 @@
 
                 <!--  Version information  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=About}" />
-                <controls:SettingsExpander HeaderIcon="{ui:FontIcon Glyph=&#xe946;}" IsExpanded="True">
+                <controls:SettingsExpander HeaderIcon="{ui:BitmapIcon Source=/Assets/AutoDarkModeIcon.ico}" IsExpanded="True">
                     <controls:SettingsExpander.Header>
-                        <TextBlock>
-                            <Run Text="{helpers:ResourceString Name=Version}" />
-                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ViewModel.SvcVersionText, Mode=OneWay}" />
-                        </TextBlock>
+                        <StackPanel Spacing="4">
+                            <TextBlock Margin="0,0,0,8">
+                                <Run Text="{helpers:ResourceString Name=Version}" />
+                                <Run Text="{x:Bind ViewModel.SvcVersionText}" />
+                            </TextBlock>
+                            <TextBlock Text="{helpers:ResourceString Name=LatestRelease}" />
+                            <TextBlock Margin="12,0,0,0">
+                                <Run>•</Run>
+                                <Run x:Name="ReleaseVersionTextBlock" />
+                                <Run>-</Run>
+                                <Run x:Name="ReleaseTypeTextBlock" />
+                                <Run>-</Run>
+                                <Run x:Name="ReleaseDateTextBlock" />
+                            </TextBlock>
+                            <TextBlock Margin="12,0,0,0">
+                                <Run>•</Run>
+                                <Hyperlink x:Name="ReleaseUrlHyperlink">
+                                    <Run Text="{helpers:ResourceString Name=ReleaseNotes}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
                     </controls:SettingsExpander.Header>
                     <Button
                         x:Name="CopyVersionInfoButton"
                         Click="CopyVersionInfoButton_Click"
                         Content="{helpers:ResourceString Name=Copy}" />
+
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard ContentAlignment="Left">
                             <StackPanel Orientation="Horizontal" Spacing="24">
