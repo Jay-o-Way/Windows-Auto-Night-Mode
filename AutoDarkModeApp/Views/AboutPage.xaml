@@ -44,9 +44,9 @@
                                 <Run Text="{x:Bind ViewModel.SvcVersionText}" />
                             </TextBlock>
                             <TextBlock>
-                                <Run x:Name="ReleaseDateTextBlock" Text="Date" />
+                                <Run x:Name="ReleaseDateTextBlock" />
                                 <Run>-</Run>
-                                <Run x:Name="ReleaseTypeTextBlock" Text="Type" />
+                                <Run x:Name="ReleaseTypeTextBlock" />
                             </TextBlock>
                             <TextBlock x:Name="ReleaseUrlTextBlock">
                                 <Hyperlink x:Name="ReleaseUrlHyperlink">

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoDarkModeApp.Services;
 
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -16,10 +17,14 @@ public sealed class GitHubReleaseService : IGitHubReleaseService
     public GitHubReleaseService()
     {
         _client.DefaultRequestHeaders.UserAgent.ParseAdd("AutoDarkMode-App");
+        _client.Timeout = TimeSpan.FromSeconds(10); // set a timeout for the request
     }
 
     public async Task<List<GitHubRelease>> FetchReleasesAsync()
     {
+        try
+        {
+
         var url = "https://api.github.com/repos/AutoDarkMode/Windows-Auto-Night-Mode/releases";
         var json = await _client.GetStringAsync(url);
 
@@ -39,11 +44,41 @@ public sealed class GitHubReleaseService : IGitHubReleaseService
         }
 
         return releases;
+        }
+        catch (HttpRequestException ex)
+        {
+            // GitHub offline, DNS error, SSL error, 404, 403, 500, etc.
+            Debug.WriteLine($"GitHub request failed: {ex.Message}");
+            return new List<GitHubRelease>(); // veilige fallback
+        }
+        catch (TaskCanceledException ex)
+        {
+            // timeout
+            Debug.WriteLine($"GitHub request timed out: {ex.Message}");
+            return new List<GitHubRelease>();
+        }
+        catch (Exception ex)
+        {
+            // onverwachte fout
+            Debug.WriteLine($"Unexpected error fetching releases: {ex.Message}");
+            return new List<GitHubRelease>();
+        }
     }
 
     public async Task<GitHubRelease?> GetReleaseForVersionAsync(string version)
     {
         var releases = await FetchReleasesAsync();
-        return releases.FirstOrDefault(r => r.TagName == version);
+
+        var exact = releases.FirstOrDefault(r => r.TagName == version);
+        if (exact != null)
+        {
+            return exact;
+        }
+
+        var latest = releases
+            .Where(r => !r.IsPrerelease)
+            .OrderByDescending(r => r.PublishedAt)
+            .FirstOrDefault();
+        return latest;
     }
 }
