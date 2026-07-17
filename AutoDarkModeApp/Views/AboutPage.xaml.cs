@@ -24,11 +24,6 @@ public sealed partial class AboutPage : Page
     private async void LoadReleaseInfoAsync()
     {
         var svcVersion = ViewModel?.SvcVersionText ?? string.Empty;
-        if (string.IsNullOrEmpty(svcVersion))
-        {
-            Debug.WriteLine("svcVersion no good");
-            return;
-        }
         var release = await _releaseService.GetReleaseForVersionAsync(svcVersion);
         if (release != null)
         {
@@ -36,6 +31,13 @@ public sealed partial class AboutPage : Page
             ReleaseDateTextBlock.Text = release.PublishedAt.ToString("yyyy-MM-dd");
             ReleaseTypeTextBlock.Text = release.IsPrerelease ? "Pre-release (Beta)" : "Release (Stable)";
             ReleaseUrlHyperlink.NavigateUri = new Uri(release.HtmlUrl);
+        }
+        else
+        {
+            //ReleaseNameTextBlock.Text = release.Name;
+            ReleaseDateTextBlock.Text = "Unknown";
+            ReleaseTypeTextBlock.Text = "Unknown";
+            ReleaseUrlHyperlink.NavigateUri = string.Empty;
         }
     }
 
