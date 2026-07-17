@@ -38,10 +38,17 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=About}" />
                 <controls:SettingsExpander HeaderIcon="{ui:FontIcon Glyph=&#xe946;}" IsExpanded="True">
                     <controls:SettingsExpander.Header>
-                        <TextBlock>
-                            <Run Text="{helpers:ResourceString Name=Version}" />
-                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ViewModel.SvcVersionText, Mode=OneWay}" />
-                        </TextBlock>
+                        <StackPanel Spacing="4">
+                            <TextBlock>
+                                <Run Text="{helpers:ResourceString Name=Version}" />
+                                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ViewModel.SvcVersionText}" />
+                            </TextBlock>
+                            <TextBlock x:Name="ReleaseDateTextBlock" Text="Date"/>
+                            <TextBlock x:Name="ReleaseTypeTextBlock" Text="Type" />
+                            <TextBlock>
+                            <Hyperlink x:Name="ReleaseUrlHyperlink"><Run Text="{helpers:ResourceString Name=ReleaseNotes}"/></Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
                     </controls:SettingsExpander.Header>
                     <Button
                         x:Name="CopyVersionInfoButton"
