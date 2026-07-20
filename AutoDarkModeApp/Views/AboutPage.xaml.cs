@@ -33,6 +33,8 @@ public sealed partial class AboutPage : Page
             ReleaseTypeTextBlock.Text = release.IsPrerelease ? "Beta" : "Stable";
             ReleaseUrlHyperlink.NavigateUri = new Uri(release.HtmlUrl);
         }
+        ReleaseInfoPanel.Visibility = release != null ? Visibility.Visible : Visibility.Collapsed;
+        ReleaseFallbackText.Visibility = release == null ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void CopyVersionInfoButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

@@ -1132,4 +1132,7 @@ Please note: This may introduce slight to moderate lag on some systems during th
   <data name="LatestRelease" xml:space="preserve">
     <value>Latest official release</value>
   </data>
+  <data name="ReleaseInfoUnavailable" xml:space="preserve">
+    <value>Release information unavailable</value>
+  </data>
 </root>
