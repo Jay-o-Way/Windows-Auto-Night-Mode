@@ -5,11 +5,11 @@ using Microsoft.UI.Xaml.Media.Animation;
 
 namespace AutoDarkModeApp.Views;
 
-public sealed partial class TimePage : Page
+public sealed partial class AutoSwitchPage : Page
 {
     public TimeViewModel ViewModel { get; }
 
-    public TimePage()
+    public AutoSwitchPage()
     {
         ViewModel = App.GetService<TimeViewModel>();
         InitializeComponent();

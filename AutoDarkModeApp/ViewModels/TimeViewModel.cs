@@ -50,7 +50,7 @@ public partial class TimeViewModel : ObservableRecipient
     public partial Visibility TimePickerVisibility { get; set; }
 
     [ObservableProperty]
-    public partial Visibility DividerBorderVisibility { get; set; }
+    public partial Visibility LocationSettingsCardVisibility { get; set; }
 
     [ObservableProperty]
     public partial string? LatValue { get; set; }
@@ -549,8 +549,8 @@ public partial class TimeViewModel : ObservableRecipient
         if (_builder.Config.Governor == Governor.NightLight)
         {
             SelectedTriggerMode = SwitchTriggerMode.WindowsNightLight;
+            LocationSettingsCardVisibility = Visibility.Collapsed;
             TimePickerVisibility = Visibility.Collapsed;
-            DividerBorderVisibility = Visibility.Collapsed;
             OffsetTimeSettingsCardVisibility = Visibility.Visible;
             PostponeOptionsSkipOnceVisibility = Visibility.Visible;
             OffsetTimesMinimum = 0;
@@ -560,8 +560,8 @@ public partial class TimeViewModel : ObservableRecipient
         if (_builder.Config.Governor == Governor.AmbientLight)
         {
             SelectedTriggerMode = SwitchTriggerMode.AmbientLight;
+            LocationSettingsCardVisibility = Visibility.Collapsed;
             TimePickerVisibility = Visibility.Collapsed;
-            DividerBorderVisibility = Visibility.Collapsed;
             OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
             PostponeOptionsSkipOnceVisibility = Visibility.Collapsed;
             return;
@@ -570,8 +570,8 @@ public partial class TimeViewModel : ObservableRecipient
         if (!_builder.Config.Location.Enabled)
         {
             SelectedTriggerMode = SwitchTriggerMode.CustomTimes;
+            LocationSettingsCardVisibility = Visibility.Collapsed;
             TimePickerVisibility = Visibility.Visible;
-            DividerBorderVisibility = Visibility.Collapsed;
             return;
         }
 
@@ -584,9 +584,9 @@ public partial class TimeViewModel : ObservableRecipient
             SelectedTriggerMode = SwitchTriggerMode.CoordinateTimes;
         }
 
+        LocationSettingsCardVisibility = Visibility.Visible;
         OffsetTimesMinimum = -720;
         TimePickerVisibility = Visibility.Visible;
-        DividerBorderVisibility = Visibility.Visible;
         OffsetTimeSettingsCardVisibility = Visibility.Visible;
         PostponeOptionsSkipOnceVisibility = Visibility.Visible;
     }
@@ -696,8 +696,8 @@ public partial class TimeViewModel : ObservableRecipient
                 _builder.Config.Location.Enabled = false;
                 _builder.Config.Location.UseGeolocatorService = false;
                 TimePickerVisibility = Visibility.Visible;
-                DividerBorderVisibility = Visibility.Collapsed;
                 OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
                 break;
 
             case SwitchTriggerMode.LocationTimes:
@@ -705,9 +705,9 @@ public partial class TimeViewModel : ObservableRecipient
                 _builder.Config.Location.Enabled = true;
                 _builder.Config.Location.UseGeolocatorService = true;
                 TimePickerVisibility = Visibility.Visible;
-                DividerBorderVisibility = Visibility.Visible;
                 OffsetTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimesMinimum = -720;
+                LocationSettingsCardVisibility = Visibility.Visible;
                 break;
 
             case SwitchTriggerMode.CoordinateTimes:
@@ -715,9 +715,9 @@ public partial class TimeViewModel : ObservableRecipient
                 _builder.Config.Location.Enabled = true;
                 _builder.Config.Location.UseGeolocatorService = false;
                 TimePickerVisibility = Visibility.Visible;
-                DividerBorderVisibility = Visibility.Visible;
                 OffsetTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimesMinimum = -720;
+                LocationSettingsCardVisibility = Visibility.Visible;
                 break;
 
             case SwitchTriggerMode.WindowsNightLight:
@@ -726,9 +726,9 @@ public partial class TimeViewModel : ObservableRecipient
                 _builder.Config.Location.Enabled = false;
                 _builder.Config.Location.UseGeolocatorService = false;
                 TimePickerVisibility = Visibility.Collapsed;
-                DividerBorderVisibility = Visibility.Collapsed;
                 OffsetTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimesMinimum = 0;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
                 break;
 
             case SwitchTriggerMode.AmbientLight:
@@ -743,8 +743,8 @@ public partial class TimeViewModel : ObservableRecipient
                 _builder.Config.Location.Enabled = false;
                 _builder.Config.Location.UseGeolocatorService = false;
                 TimePickerVisibility = Visibility.Collapsed;
-                DividerBorderVisibility = Visibility.Collapsed;
                 OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
                 break;
         }
 

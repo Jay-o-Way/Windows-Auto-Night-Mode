@@ -821,8 +821,8 @@ Currently installed version: {0}, new version: {1}</value>
     <value>Sunrise</value>
     <comment>Must match Win.11 theme name. File: themeC.theme</comment>
   </data>
-  <data name="Time" xml:space="preserve">
-    <value>Time</value>
+  <data name="AutoSwitch" xml:space="preserve">
+    <value>Auto Switch</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
     <value>Toggle theme</value>
