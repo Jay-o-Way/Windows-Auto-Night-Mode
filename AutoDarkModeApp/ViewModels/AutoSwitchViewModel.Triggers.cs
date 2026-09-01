@@ -179,7 +179,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             _errorService.ShowErrorMessage(ex, App.MainWindow.Content.XamlRoot, "AutoSwitchViewModel");
         }
 
-        SafeApplyTheme();
+        RequestThemeSwitch();
     }
 
     partial void OnOffsetLightChanged(int value)

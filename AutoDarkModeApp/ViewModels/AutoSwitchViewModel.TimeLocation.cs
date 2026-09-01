@@ -76,7 +76,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             _errorService.ShowErrorMessage(ex, App.MainWindow.Content.XamlRoot, "AutoSwitchViewModel");
         }
 
-        SafeApplyTheme();
+        RequestThemeSwitch();
     }
 
     private void UpdateLocationNextUpdateDescription()
@@ -143,7 +143,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             _errorService.ShowErrorMessage(ex, App.MainWindow.Content.XamlRoot, "AutoSwitchViewModel");
         }
 
-        SafeApplyTheme();
+        RequestThemeSwitch();
     }
 
     partial void OnTimeDarkStartChanged(TimeSpan value)
@@ -161,6 +161,6 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             _errorService.ShowErrorMessage(ex, App.MainWindow.Content.XamlRoot, "AutoSwitchViewModel");
         }
 
-        SafeApplyTheme();
+        RequestThemeSwitch();
     }
 }

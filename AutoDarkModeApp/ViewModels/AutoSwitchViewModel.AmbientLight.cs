@@ -203,7 +203,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             try
             {
                 _builder.Save();
-                SafeApplyTheme();
+                RequestThemeSwitch();
             }
             catch (Exception ex)
             {

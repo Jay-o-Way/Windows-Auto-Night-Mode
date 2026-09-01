@@ -32,7 +32,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
         LoadSettings();
         Task.Run(() => LoadPostponeTimer(null, new()));
 
-        StateUpdateHandler.AddDebounceEventOnConfigUpdate(() => HandleConfigUpdate());
+        StateUpdateHandler.AddDebounceEventOnConfigUpdate(HandleConfigUpdate);
         StateUpdateHandler.StartConfigWatcher();
 
         StateUpdateHandler.OnPostponeTimerTick += LoadPostponeTimer;
@@ -72,7 +72,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             _ambientLightDebounceTimer.Stop();
 
             // Trigger theme re-evaluation with new thresholds
-            SafeApplyTheme();
+            RequestThemeSwitch();
         };
     }
 
@@ -80,38 +80,27 @@ public partial class AutoSwitchViewModel : ObservableRecipient
     {
         _isInitializing = true;
 
-        OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
-
         // Check ambient light sensor availability and set up monitoring
-        try
+        _lightSensor = Windows.Devices.Sensors.LightSensor.GetDefault();
+        AmbientLightSensorAvailable = _lightSensor != null;
+
+        if (!AmbientLightSensorAvailable)
         {
-            _lightSensor = Windows.Devices.Sensors.LightSensor.GetDefault();
-            AmbientLightSensorAvailable = _lightSensor != null;
-            if (_lightSensor != null)
-            {
-                // Set report interval to ~100ms for smooth UI updates (or sensor min if slower)
-                _lightSensor.ReportInterval = Math.Max(_lightSensor.MinimumReportInterval, 100);
-                _lightSensor.ReadingChanged += OnLightSensorReadingChanged;
-                // Get initial reading
-                var reading = _lightSensor.GetCurrentReading();
-                if (reading != null)
-                {
-                    CurrentLuxReading = reading.IlluminanceInLux;
-                    CurrentLuxDescription = GetLuxDescription(CurrentLuxReading);
-                    CurrentLuxSliderPercentage = LogarithmicLuxConverter.LuxToSlider(CurrentLuxReading);
-                    RemainingLuxSliderPercentage = 1000 - CurrentLuxSliderPercentage;
-                }
-            }
-            else
-            {
-                CurrentLuxDescription = "AmbientLightNoSensor".GetLocalized();
-            }
-        }
-        catch
-        {
-            AmbientLightSensorAvailable = false;
             CurrentLuxDescription = "AmbientLightNoSensor".GetLocalized();
+            _isInitializing = false;
+            return;
         }
+
+        // Set report interval to ~100ms for smooth UI updates (or sensor min if slower)
+        _lightSensor.ReportInterval = Math.Max(_lightSensor.MinimumReportInterval, 100);
+        _lightSensor.ReadingChanged += OnLightSensorReadingChanged;
+
+        // Get initial reading
+        var reading = _lightSensor.GetCurrentReading();
+        CurrentLuxReading = reading.IlluminanceInLux;
+        CurrentLuxDescription = GetLuxDescription(CurrentLuxReading);
+        CurrentLuxSliderPercentage = LogarithmicLuxConverter.LuxToSlider(CurrentLuxReading);
+        RemainingLuxSliderPercentage = 1000 - CurrentLuxSliderPercentage;
 
         // Load ambient light threshold settings
         AmbientLightDarkThreshold = _builder.Config.AmbientLight.DarkThreshold;
@@ -130,34 +119,38 @@ public partial class AutoSwitchViewModel : ObservableRecipient
         TimePickHourClock = timeFormat.Contains('h') ? Windows.Globalization.ClockIdentifiers.TwelveHour : Windows.Globalization.ClockIdentifiers.TwentyFourHour;
 
         _dispatcherQueue.TryEnqueue(async () =>
-        {
-            // Only load geolocation data for location-based modes
-            if (SelectedTriggerMode == SwitchTriggerMode.LocationTimes ||
-                SelectedTriggerMode == SwitchTriggerMode.CoordinateTimes)
-            {
-                await LoadGeolocationData();
+                {
+                    // Only load geolocation data for location-based modes
+                    switch (SelectedTriggerMode)
+                    {
+                        case SwitchTriggerMode.LocationTimes:
+                        case SwitchTriggerMode.CoordinateTimes:
+                        {
+                            await LoadGeolocationData();
 
-                LocationHandler.GetSunTimesWithOffset(_builder, out DateTime SunriseWithOffset, out DateTime SunsetWithOffset);
-                TimeLightStart = SunriseWithOffset.TimeOfDay;
-                TimeDarkStart = SunsetWithOffset.TimeOfDay;
+                            LocationHandler.GetSunTimesWithOffset(_builder, out DateTime SunriseWithOffset, out DateTime SunsetWithOffset);
+                            TimeLightStart = SunriseWithOffset.TimeOfDay;
+                            TimeDarkStart = SunsetWithOffset.TimeOfDay;
 
-                // location data has been reloaded from disk by now, so the next update time may have become available
-                UpdateLocationNextUpdateDescription();
-            }
-            else if (SelectedTriggerMode == SwitchTriggerMode.CustomTimes)
-            {
-                TimeLightStart = _builder.Config.Sunrise.TimeOfDay;
-                TimeDarkStart = _builder.Config.Sunset.TimeOfDay;
-            }
-            // AmbientLight and WindowsNightLight modes don't need time/location data
-        });
+                            // location data has been reloaded from disk by now, so the next update time may have become available
+                            UpdateLocationNextUpdateDescription();
+                            break;
+                        }
+
+                        case SwitchTriggerMode.CustomTimes:
+                            TimeLightStart = _builder.Config.Sunrise.TimeOfDay;
+                            TimeDarkStart = _builder.Config.Sunset.TimeOfDay;
+                            break;
+                    }
+                    // AmbientLight and WindowsNightLight modes don't need time/location data
+                });
 
         UpdateLocationNextUpdateDescription();
 
         _isInitializing = false;
     }
 
-    private static async void SafeApplyTheme()
+    private static async void RequestThemeSwitch()
     {
         await MessageHandler.Client.SendMessageAndGetReplyAsync(Command.RequestSwitch, 15);
     }
