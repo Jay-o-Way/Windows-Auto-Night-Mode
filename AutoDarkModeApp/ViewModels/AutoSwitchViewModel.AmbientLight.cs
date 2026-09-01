@@ -76,6 +76,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
                 _isUpdating = true;
                 double lux = SliderToLux(value);
                 AmbientLightDarkThreshold = lux;
+
                 // Snap slider to canonical position for rounded lux value
                 // This ensures the thumb position matches the displayed value
                 double canonicalSlider = LuxToSlider(lux);
@@ -99,6 +100,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
                 _isUpdating = true;
                 double lux = SliderToLux(value);
                 AmbientLightLightThreshold = lux;
+
                 // Snap slider to canonical position for rounded lux value
                 // This ensures the thumb position matches the displayed value
                 double canonicalSlider = LuxToSlider(lux);
@@ -136,10 +138,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
         return Math.Log(lux + 1) / LogBase * SliderMaxValue;
     }
 
-    public Microsoft.UI.Xaml.GridLength GetStarWidth(double value)
-    {
-        return new Microsoft.UI.Xaml.GridLength(value, Microsoft.UI.Xaml.GridUnitType.Star);
-    }
+    public static Microsoft.UI.Xaml.GridLength GetStarWidth(double value) => new GridLength(value, GridUnitType.Star);
 
     [ObservableProperty]
     public partial double CurrentLuxSliderPercentage { get; set; }
@@ -177,17 +176,18 @@ public partial class AutoSwitchViewModel : ObservableRecipient
         double gap = Math.Pow(Math.Max(1, currentLux), 0.7);
 
         // Anchor threshold based on current active theme
-        if (Application.Current.RequestedTheme == ApplicationTheme.Light)
+        switch (Application.Current.RequestedTheme)
         {
-            // Light theme: current lux is "nominal light", anchor light threshold near it
-            light = Math.Max(1, currentLux * 0.95);
-            dark = Math.Max(1, light - gap);
-        }
-        else
-        {
-            // Dark theme: current lux is "nominal dark", anchor dark threshold near it
-            dark = Math.Max(1, currentLux * 1.05);
-            light = dark + gap;
+            case ApplicationTheme.Light:
+                // Light theme: current lux is "nominal light", anchor light threshold near it
+                light = Math.Max(1, currentLux * 0.95);
+                dark = Math.Max(1, light - gap);
+                break;
+            default:
+                // Dark theme: current lux is "nominal dark", anchor dark threshold near it
+                dark = Math.Max(1, currentLux * 1.05);
+                light = dark + gap;
+                break;
         }
 
         // Clamp to valid range

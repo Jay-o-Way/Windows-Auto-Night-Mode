@@ -62,7 +62,7 @@ public sealed partial class AutoSwitchPage : Page
         storyboard.Begin();
     }
 
-    private async void NoLocationAccessInfoBar_ActionButtonClick(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void NoLocationAccessInfoBar_ActionButtonClick(object sender, RoutedEventArgs e)
     {
         await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
     }
@@ -101,7 +101,7 @@ public sealed partial class AutoSwitchPage : Page
         args.Cancel = hasInvalidChars || hasMultipleDots || hasMultipleSeparators || hasMultipleMinuses || hasInvalidMinus || hasInvalidSeparatorStart || exceedsPrecision;
     }
 
-    private async void WindowsNightLightHyperlinkButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void WindowsNightLightHyperlinkButton_Click(object sender, RoutedEventArgs e)
     {
         await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:nightlight"));
     }

@@ -42,25 +42,23 @@ public partial class AutoSwitchViewModel : ObservableRecipient
     {
         AutoThemeSwitchingEnabled = value;
 
-        if (_builder.Config.Governor == Governor.NightLight)
+        switch (_builder.Config.Governor)
         {
-            SelectedTriggerMode = SwitchTriggerMode.WindowsNightLight;
-            LocationSettingsCardVisibility = Visibility.Collapsed;
-            CustomTimeSettingsCardVisibility = Visibility.Collapsed;
-            OffsetTimeSettingsCardVisibility = Visibility.Visible;
-            PostponeOptionsSkipOnceVisibility = Visibility.Visible;
-            OffsetTimesMinimum = 0;
-            return;
-        }
-
-        if (_builder.Config.Governor == Governor.AmbientLight)
-        {
-            SelectedTriggerMode = SwitchTriggerMode.AmbientLight;
-            LocationSettingsCardVisibility = Visibility.Collapsed;
-            CustomTimeSettingsCardVisibility = Visibility.Collapsed;
-            OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
-            PostponeOptionsSkipOnceVisibility = Visibility.Collapsed;
-            return;
+            case Governor.NightLight:
+                SelectedTriggerMode = SwitchTriggerMode.WindowsNightLight;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
+                CustomTimeSettingsCardVisibility = Visibility.Collapsed;
+                OffsetTimeSettingsCardVisibility = Visibility.Visible;
+                PostponeOptionsSkipOnceVisibility = Visibility.Visible;
+                OffsetTimesMinimum = 0;
+                return;
+            case Governor.AmbientLight:
+                SelectedTriggerMode = SwitchTriggerMode.AmbientLight;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
+                CustomTimeSettingsCardVisibility = Visibility.Collapsed;
+                OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
+                PostponeOptionsSkipOnceVisibility = Visibility.Collapsed;
+                return;
         }
 
         if (!_builder.Config.Location.Enabled)
