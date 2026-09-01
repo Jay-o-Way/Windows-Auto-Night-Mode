@@ -824,6 +824,12 @@ Currently installed version: {0}, new version: {1}</value>
   <data name="AutoSwitch" xml:space="preserve">
     <value>Auto Switch</value>
   </data>
+  <data name="SwitchBehavior" xml:space="preserve">
+    <value>Switch behavior</value>
+  </data>
+  <data name="ThemeSwitchingOptions" xml:space="preserve">
+    <value>Theme switching options</value>
+  </data>
   <data name="ToggleTheme" xml:space="preserve">
     <value>Toggle theme</value>
   </data>
