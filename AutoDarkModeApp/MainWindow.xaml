@@ -67,7 +67,7 @@
                 -->
                 <NavigationViewItem
                     Content="{helpers:ResourceString Name=AutoSwitch}"
-                    Icon="{ui:FontIcon Glyph=&#xE823;}"
+                    Icon="{ui:FontIcon Glyph=&#xE8AB;}"
                     Tag="AutoSwitch" />
                 <NavigationViewItem
                     Content="{helpers:ResourceString Name=SystemAreas}"
