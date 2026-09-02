@@ -26,7 +26,6 @@
 
                 <!--  Info about unavailable location access  -->
                 <InfoBar
-                    Title="{helpers:ResourceString Name=Info}"
                     IsOpen="{x:Bind ViewModel.IsNoLocationAccessInfoBarOpen, Mode=OneWay}"
                     Message="{helpers:ResourceString Name=Msg_LocPerm}"
                     Severity="Warning">
@@ -80,7 +79,7 @@
                                         IsEnabled="{x:Bind ViewModel.AmbientLightSensorAvailable, Mode=OneWay}" />
                                     <FontIcon
                                         Margin="0,4,0,0"
-                                        FontSize="12"
+                                        FontSize="{StaticResource CaptionTextBlockFontSize}"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Glyph="&#xE946;" />
                                 </StackPanel>
@@ -167,8 +166,8 @@
 
                         <!--  Ambient Light Sensor  -->
                         <controls:SettingsCard
-                            HorizontalContentAlignment="Left"
-                            ContentAlignment="Vertical"
+                            HorizontalContentAlignment="Stretch"
+                            ContentAlignment="Left"
                             IsEnabled="{x:Bind ViewModel.AutoThemeSwitchingEnabled, Mode=OneWay}"
                             Visibility="{x:Bind ViewModel.SelectedTriggerMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=AmbientLight, Mode=OneWay}">
                             <StackPanel HorizontalAlignment="Stretch" Spacing="16">
@@ -194,7 +193,7 @@
                                     <FontIcon
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
-                                        FontSize="16"
+                                        FontSize="{StaticResource BodyTextBlockFontSize}"
                                         Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                         Glyph="&#xE706;" />
                                     <TextBlock
@@ -214,7 +213,7 @@
                                                 <FontIcon
                                                     FontSize="{StaticResource BodyTextBlockFontSize}"
                                                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                    Glyph="&#xE945;" />
+                                                    Glyph="&#xF4A5;" />
                                                 <TextBlock Text="{helpers:ResourceString Name=AmbientLightAutoConfigure}" />
                                             </StackPanel>
                                         </Button>
@@ -325,7 +324,11 @@
                         </controls:SettingsCard>
 
                         <!--  Range Selector with Thresholds  -->
-                        <controls:SettingsCard HorizontalContentAlignment="Stretch" Visibility="{x:Bind ViewModel.SelectedTriggerMode, ConverterParameter=AmbientLight, Converter={StaticResource EnumToVisibilityConverter}, Mode=OneWay}">
+                        <controls:SettingsCard
+                            HorizontalContentAlignment="Stretch"
+                            ContentAlignment="Vertical"
+                            IsEnabled="{x:Bind ViewModel.AutoThemeSwitchingEnabled, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.SelectedTriggerMode, ConverterParameter=AmbientLight, Converter={StaticResource EnumToVisibilityConverter}, Mode=OneWay}">
                             <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -356,7 +359,7 @@
                                     Grid.Column="1"
                                     Margin="0,24,0,0"
                                     VerticalAlignment="Center"
-                                    FontSize="16"
+                                    FontSize="{StaticResource BodyTextBlockFontSize}"
                                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                     Glyph="&#xe708;" />
 
@@ -410,7 +413,7 @@
                                     SizeChanged="IndicatorCanvas_SizeChanged">
                                     <FontIcon
                                         x:Name="CurrentLuxIndicator"
-                                        FontSize="12"
+                                        FontSize="{StaticResource CaptionTextBlockFontSize}"
                                         Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                         Glyph="&#xE96E;" />
                                 </Canvas>
@@ -468,7 +471,7 @@
                                     Grid.Column="3"
                                     Margin="0,24,0,0"
                                     VerticalAlignment="Center"
-                                    FontSize="16"
+                                    FontSize="{StaticResource BodyTextBlockFontSize}"
                                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                     Glyph="&#xE706;" />
                                 <!--  Light threshold NumberBox  -->
@@ -509,7 +512,7 @@
 
                                 <FontIcon
                                     Grid.Column="0"
-                                    FontSize="16"
+                                    FontSize="{StaticResource BodyTextBlockFontSize}"
                                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                     Glyph="&#xE706;" />
                                 <TextBlock Grid.Column="1" Text="{helpers:ResourceString Name=Light}" />
@@ -521,7 +524,7 @@
                                 <FontIcon
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    FontSize="16"
+                                    FontSize="{StaticResource BodyTextBlockFontSize}"
                                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                     Glyph="&#xe708;" />
                                 <TextBlock
@@ -575,20 +578,13 @@
 
                         <controls:SettingsCard Header="{helpers:ResourceString Name=PostponeControl}">
                             <controls:SettingsCard.Description>
-                                <Grid ColumnSpacing="8" RowSpacing="16">
+                                <Grid ColumnSpacing="8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
                                     <ComboBox
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        MinWidth="120"
+                                        MinWidth="{StaticResource ComboBoxThemeMinWidth}"
                                         IsEnabled="{x:Bind ViewModel.IsPostponed, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                         SelectedIndex="{x:Bind ViewModel.SelectedPostponeIndex, Mode=TwoWay}">
                                         <ComboBoxItem Content="{helpers:ResourceString Name=PostponeTime_15}" />
@@ -598,15 +594,10 @@
                                         <ComboBoxItem Content="{helpers:ResourceString Name=PostponeTime_180}" />
                                         <ComboBoxItem Content="{helpers:ResourceString Name=PostponeTime_360}" />
                                         <ComboBoxItem Content="{helpers:ResourceString Name=PostponeTime_720}" />
-                                        <ComboBoxItem
-                                            Content="{helpers:ResourceString Name=PostponeTime_SkipOnce}"
-                                            IsSelected="True"
-                                            Visibility="{x:Bind ViewModel.PostponeOptionsSkipOnceVisibility, Mode=OneWay}" />
+                                        <ComboBoxItem Content="{helpers:ResourceString Name=PostponeTime_SkipOnce}" Visibility="{x:Bind ViewModel.PostponeOptionsSkipOnceVisibility, Mode=OneWay}" />
                                     </ComboBox>
                                     <ToggleSwitch
-                                        Grid.Row="0"
                                         Grid.Column="1"
-                                        Margin="0,0,-24,0"
                                         IsOn="{x:Bind ViewModel.IsPostponed, Mode=TwoWay}"
                                         OffContent="{helpers:ResourceString Name=NotDelayed}"
                                         OnContent="{helpers:ResourceString Name=Delayed}" />
@@ -614,23 +605,23 @@
                             </controls:SettingsCard.Description>
                         </controls:SettingsCard>
 
-                        <!--  Postpone Info  -->
-                        <controls:SettingsCard ContentAlignment="Left" IsEnabled="{x:Bind ViewModel.AutoThemeSwitchingEnabled, Mode=OneWay}">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon
-                                    FontSize="{StaticResource BodyTextBlockFontSize}"
-                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                    Glyph="&#xECC5;" />
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.PostponeInfoText, Mode=OneWay}" />
-                            </StackPanel>
-                        </controls:SettingsCard>
                     </controls:SettingsExpander.Items>
+
                     <controls:SettingsExpander.ItemsFooter>
-                        <InfoBar
-                            Content="{helpers:ResourceString Name=ResumeInfo_Content}"
-                            CornerRadius="0"
-                            IsClosable="False"
-                            IsOpen="{x:Bind ViewModel.ResumeInfoBarEnabled, Mode=OneWay}" />
+                        <!--  Postpone Info  -->
+                        <StackPanel>
+                            <InfoBar
+                                CornerRadius="0"
+                                IsClosable="False"
+                                IsOpen="True"
+                                Message="{x:Bind ViewModel.PostponeInfoText, Mode=OneWay}"
+                                Severity="Informational" />
+                            <InfoBar
+                                Message="{helpers:ResourceString Name=ResumeInfo_Content}"
+                                CornerRadius="0"
+                                IsClosable="False"
+                                IsOpen="{x:Bind ViewModel.ResumeInfoBarEnabled, Mode=OneWay}" />
+                        </StackPanel>
                     </controls:SettingsExpander.ItemsFooter>
                 </controls:SettingsExpander>
 
