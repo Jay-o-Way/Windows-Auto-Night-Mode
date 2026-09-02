@@ -20,9 +20,6 @@ public partial class AutoSwitchViewModel : ObservableRecipient
     public partial TimeSpan TimeDarkStart { get; set; }
 
     [ObservableProperty]
-    public partial string? TimePickHourClock { get; set; }
-
-    [ObservableProperty]
     public partial Visibility CustomTimeSettingsCardVisibility { get; set; }
 
     [ObservableProperty]
@@ -102,6 +99,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
 
             await Task.Delay(1000);
         }
+
         _builder.LoadLocationData();
         try
         {
@@ -109,6 +107,7 @@ public partial class AutoSwitchViewModel : ObservableRecipient
             if (_builder.Config.Location.UseGeolocatorService && result.StatusCode == StatusCode.NoLocAccess)
             {
                 IsNoLocationAccessInfoBarOpen = true;
+                LocationBlockText = "Msg_LocPerm".GetLocalized();
             }
             else if (_builder.Config.Location.UseGeolocatorService && result.StatusCode == StatusCode.Ok)
             {

@@ -115,29 +115,29 @@ public partial class AutoSwitchViewModel : ObservableRecipient
                 _builder.Config.Governor = Governor.Default;
                 _builder.Config.Location.Enabled = false;
                 _builder.Config.Location.UseGeolocatorService = false;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
                 CustomTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
-                LocationSettingsCardVisibility = Visibility.Collapsed;
                 break;
 
             case SwitchTriggerMode.LocationTimes:
                 _builder.Config.Governor = Governor.Default;
                 _builder.Config.Location.Enabled = true;
                 _builder.Config.Location.UseGeolocatorService = true;
+                LocationSettingsCardVisibility = Visibility.Visible;
                 CustomTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimesMinimum = -720;
-                LocationSettingsCardVisibility = Visibility.Visible;
                 break;
 
             case SwitchTriggerMode.CoordinateTimes:
                 _builder.Config.Governor = Governor.Default;
                 _builder.Config.Location.Enabled = true;
                 _builder.Config.Location.UseGeolocatorService = false;
+                LocationSettingsCardVisibility = Visibility.Visible;
                 CustomTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimesMinimum = -720;
-                LocationSettingsCardVisibility = Visibility.Visible;
                 break;
 
             case SwitchTriggerMode.WindowsNightLight:
@@ -145,10 +145,10 @@ public partial class AutoSwitchViewModel : ObservableRecipient
                 _builder.Config.AutoThemeSwitchingEnabled = true;
                 _builder.Config.Location.Enabled = false;
                 _builder.Config.Location.UseGeolocatorService = false;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
                 CustomTimeSettingsCardVisibility = Visibility.Collapsed;
                 OffsetTimeSettingsCardVisibility = Visibility.Visible;
                 OffsetTimesMinimum = 0;
-                LocationSettingsCardVisibility = Visibility.Collapsed;
                 break;
 
             case SwitchTriggerMode.AmbientLight:
@@ -162,9 +162,9 @@ public partial class AutoSwitchViewModel : ObservableRecipient
                 _builder.Config.AutoThemeSwitchingEnabled = true;
                 _builder.Config.Location.Enabled = false;
                 _builder.Config.Location.UseGeolocatorService = false;
+                LocationSettingsCardVisibility = Visibility.Collapsed;
                 CustomTimeSettingsCardVisibility = Visibility.Collapsed;
                 OffsetTimeSettingsCardVisibility = Visibility.Collapsed;
-                LocationSettingsCardVisibility = Visibility.Collapsed;
                 break;
         }
 

@@ -84,45 +84,45 @@ public partial class AutoSwitchViewModel : ObservableRecipient
         _lightSensor = Windows.Devices.Sensors.LightSensor.GetDefault();
         AmbientLightSensorAvailable = _lightSensor != null;
 
-        if (!AmbientLightSensorAvailable)
+        if (AmbientLightSensorAvailable)
         {
-            CurrentLuxDescription = "AmbientLightNoSensor".GetLocalized();
-            _isInitializing = false;
-            return;
+            // Set report interval to ~100ms for smooth UI updates (or sensor min if slower)
+            _lightSensor.ReportInterval = Math.Max(_lightSensor.MinimumReportInterval, 100);
+            _lightSensor.ReadingChanged += OnLightSensorReadingChanged;
+
+            // Get initial reading
+            var reading = _lightSensor.GetCurrentReading();
+            CurrentLuxReading = reading.IlluminanceInLux;
+            CurrentLuxDescription = GetLuxDescription(CurrentLuxReading);
+            CurrentLuxSliderPercentage = LogarithmicLuxConverter.LuxToSlider(CurrentLuxReading);
+            RemainingLuxSliderPercentage = 1000 - CurrentLuxSliderPercentage;
+
+            // Load ambient light threshold settings
+            AmbientLightDarkThreshold = _builder.Config.AmbientLight.DarkThreshold;
+            AmbientLightLightThreshold = _builder.Config.AmbientLight.LightThreshold;
         }
-
-        // Set report interval to ~100ms for smooth UI updates (or sensor min if slower)
-        _lightSensor.ReportInterval = Math.Max(_lightSensor.MinimumReportInterval, 100);
-        _lightSensor.ReadingChanged += OnLightSensorReadingChanged;
-
-        // Get initial reading
-        var reading = _lightSensor.GetCurrentReading();
-        CurrentLuxReading = reading.IlluminanceInLux;
-        CurrentLuxDescription = GetLuxDescription(CurrentLuxReading);
-        CurrentLuxSliderPercentage = LogarithmicLuxConverter.LuxToSlider(CurrentLuxReading);
-        RemainingLuxSliderPercentage = 1000 - CurrentLuxSliderPercentage;
-
-        // Load ambient light threshold settings
-        AmbientLightDarkThreshold = _builder.Config.AmbientLight.DarkThreshold;
-        AmbientLightLightThreshold = _builder.Config.AmbientLight.LightThreshold;
+        else
+        {
+            // No sensor available - show helpful text but continue initializing other settings
+            CurrentLuxDescription = "AmbientLightNoSensor".GetLocalized();
+        }
 
         HandleAutoTheme(_builder.Config.AutoThemeSwitchingEnabled);
 
-        TimePickHourClock = Windows.Globalization.ClockIdentifiers.TwentyFourHour;
-        OffsetLight = _builder.Config.Location.SunriseOffsetMin;
-        OffsetDark = _builder.Config.Location.SunsetOffsetMin;
-        LocationBlockText = "Msg_SearchLoc".GetLocalized();
         LatValue = _builder.Config.Location.CustomLat.ToString(CultureInfo.InvariantCulture);
         LonValue = _builder.Config.Location.CustomLon.ToString(CultureInfo.InvariantCulture);
 
-        string timeFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
-        TimePickHourClock = timeFormat.Contains('h') ? Windows.Globalization.ClockIdentifiers.TwelveHour : Windows.Globalization.ClockIdentifiers.TwentyFourHour;
+        LocationBlockText = "Msg_SearchLoc".GetLocalized();
+
+        OffsetLight = _builder.Config.Location.SunriseOffsetMin;
+        OffsetDark = _builder.Config.Location.SunsetOffsetMin;
 
         _dispatcherQueue.TryEnqueue(async () =>
                 {
-                    // Only load geolocation data for location-based modes
                     switch (SelectedTriggerMode)
                     {
+                        // Only load geolocation data for location-based modes
+                        // AmbientLight and WindowsNightLight modes don't need time/location data
                         case SwitchTriggerMode.LocationTimes:
                         case SwitchTriggerMode.CoordinateTimes:
                         {
@@ -142,7 +142,6 @@ public partial class AutoSwitchViewModel : ObservableRecipient
                             TimeDarkStart = _builder.Config.Sunset.TimeOfDay;
                             break;
                     }
-                    // AmbientLight and WindowsNightLight modes don't need time/location data
                 });
 
         UpdateLocationNextUpdateDescription();
