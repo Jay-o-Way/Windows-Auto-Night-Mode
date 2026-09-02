@@ -92,10 +92,20 @@ public partial class AutoSwitchViewModel : ObservableRecipient
 
             // Get initial reading
             var reading = _lightSensor.GetCurrentReading();
-            CurrentLuxReading = reading.IlluminanceInLux;
-            CurrentLuxDescription = GetLuxDescription(CurrentLuxReading);
-            CurrentLuxSliderPercentage = LogarithmicLuxConverter.LuxToSlider(CurrentLuxReading);
-            RemainingLuxSliderPercentage = 1000 - CurrentLuxSliderPercentage;
+            if (reading != null)
+            {
+                CurrentLuxReading = reading.IlluminanceInLux;
+                CurrentLuxDescription = GetLuxDescription(CurrentLuxReading);
+                CurrentLuxSliderPercentage = LogarithmicLuxConverter.LuxToSlider(CurrentLuxReading);
+                RemainingLuxSliderPercentage = 1000 - CurrentLuxSliderPercentage;
+            }
+            else
+            {
+                CurrentLuxReading = 0;
+                CurrentLuxDescription = "AmbientLightNoReading".GetLocalized();
+                CurrentLuxSliderPercentage = 0;
+                RemainingLuxSliderPercentage = 1000;
+            }
 
             // Load ambient light threshold settings
             AmbientLightDarkThreshold = _builder.Config.AmbientLight.DarkThreshold;
