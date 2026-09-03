@@ -611,16 +611,18 @@
                         <!--  Postpone Info  -->
                         <StackPanel>
                             <InfoBar
+                                BorderThickness="0,1,0,0"
                                 CornerRadius="0"
                                 IsClosable="False"
                                 IsOpen="True"
                                 Message="{x:Bind ViewModel.PostponeInfoText, Mode=OneWay}"
                                 Severity="Informational" />
                             <InfoBar
-                                Message="{helpers:ResourceString Name=ResumeInfo_Content}"
+                                BorderThickness="0,1,0,0"
                                 CornerRadius="0"
                                 IsClosable="False"
-                                IsOpen="{x:Bind ViewModel.ResumeInfoBarEnabled, Mode=OneWay}" />
+                                IsOpen="{x:Bind ViewModel.ResumeInfoBarEnabled, Mode=OneWay}"
+                                Message="{helpers:ResourceString Name=ResumeInfo_Content}" />
                         </StackPanel>
                     </controls:SettingsExpander.ItemsFooter>
                 </controls:SettingsExpander>
