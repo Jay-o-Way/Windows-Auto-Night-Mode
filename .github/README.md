@@ -2,7 +2,7 @@
   <img alt="Auto Dark Mode title image" src="./assets/Readme.png" />
 </p>
 
-Switches between the dark and light theme of Windows at scheduled times.
+Switches between the dark and light theme of Windows at scheduled times, or at certain events.
 
 <a href="https://hosted.weblate.org/engage/auto-dark-mode/">
   <img src="https://hosted.weblate.org/widgets/auto-dark-mode/-/svg-badge.svg" alt="Translation status" />
@@ -21,7 +21,9 @@ Auto Dark Mode helps you to be more productive. Because you shouldn't care about
 Because a simple design change would be too boring, Auto Dark Mode is packed with useful functions. For example, we can also change your desktop wallpaper or run custom scripts.
 
 ## Features
+
 ![Screenshot showing the System areas page of Auto Dark Mode](./assets/screenshot_systemareas.png)
+
 - Compatible with Windows 10* and Windows 11.
 - Theme switch based on sunrise and sunset.
 - Theme switch based on ambient light sensor.
@@ -31,7 +33,7 @@ Because a simple design change would be too boring, Auto Dark Mode is packed wit
 - Accent color switch.
 - Support for turning on/off accent color on the Taskbar and title bars.
 - Touch keyboard switch.
-- Windows .theme file switch.
+- Windows .theme files.
 - Keyboard shortcuts.
 - Auto Dark Mode can enable the grayscale color filter of Windows.
 - Suitable for gamers: Doesn't switch while playing games to avoid stuttering.
@@ -40,7 +42,7 @@ Because a simple design change would be too boring, Auto Dark Mode is packed wit
 - Automatic updates.
 - Lightweight with clean uninstall. No admin rights needed.
 
-<sup>* Windows 10 versions older than 22H2 are not supported</sup>
+<sup>* Windows 10 versions 22H2</sup>
 
 ## Download
 
@@ -63,7 +65,7 @@ winget install autodarkmode
 ### Even more download options
 
 <details>
-  <summary>Click to expand</summary>
+<summary>Click to expand</summary>
 
 #### Via Chocolatey
 
@@ -90,25 +92,25 @@ scoop install autodarkmode
 scoop bucket add nonportable
 scoop install auto-dark-mode-np
 ```
+
 <hr>
 </details>
 
 #### Installation
 
-Installation is pretty easy, as you only need to run the setup file provided as .exe. If you want to deploy Auto Dark Mode on multiple machines, you can use the argument _/allusers /verysilent_ to skip the installer window. Beware that the integrated updater doesn't support system-wide installations.
-<br> <br>
+Installation is pretty easy, as you only need to run the setup file provided as .exe. If you want to deploy Auto Dark Mode on multiple machines, you can use the argument `/allusers /verysilent` to skip the installer window. Beware that the integrated updater doesn't support system-wide installations.
 
 ## Translations
 
-We use Weblate's cool [free Libre plan](https://hosted.weblate.org/hosting/) that supports open source software projects! <br>
+We use Weblate's cool [free Libre plan](https://hosted.weblate.org/hosting/) that supports open source software projects!
 You can find our project here: <https://hosted.weblate.org/projects/auto-dark-mode/app/>
+We welcome any updates!
+
 <p align="left">
   <a href="https://hosted.weblate.org/engage/auto-dark-mode/">
     <img src="https://hosted.weblate.org/widgets/auto-dark-mode/-/app/multi-auto.svg" alt="Translation status" />
   </a>
 </p>
-
-Alternatively, you can manually edit the translation files in `AutoDarkModeApp\Strings`.
 
 ## Awards
 
@@ -118,4 +120,4 @@ Alternatively, you can manually edit the translation files in `AutoDarkModeApp\S
 
 ## More information
 
-Still have open questions? Check out [our wiki](https://github.com/AutoDarkMode/Windows-Auto-Night-Mode/wiki)!
+Still have questions? Check out [our wiki](https://github.com/AutoDarkMode/Windows-Auto-Night-Mode/wiki)!
