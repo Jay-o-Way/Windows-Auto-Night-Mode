@@ -102,8 +102,6 @@ public partial class AutoSwitchViewModel : ObservableRecipient
         else if (postponeMinutes == 0 && value)
         {
             MessageHandler.Client.SendMessageAndGetReply(Command.ToggleSkipNext);
-            if (!value)
-                MessageHandler.Client.SendMessageAndGetReply(Command.RequestSwitch);
         }
         else
         {
