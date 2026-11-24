@@ -98,14 +98,14 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Links}" />
 
                 <controls:SettingsCard
-                    ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                    ActionIcon="{ui:FontIcon Glyph=&#xE8A7;, MirroredWhenRightToLeft=True}"
                     Click="DarkReaderWebBrowserHyperlinkButton_Click"
                     Description="{helpers:ResourceString Name=DarkModeForWebbrowserDescription}"
                     Header="{helpers:ResourceString Name=DarkModeForWebbrowser}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xEA86;}"
                     IsClickEnabled="True" />
                 <controls:SettingsCard
-                    ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                    ActionIcon="{ui:FontIcon Glyph=&#xE8A7;, MirroredWhenRightToLeft=True}"
                     Click="WindowsColorsSettingHyperlinkButton_Click"
                     Header="{helpers:ResourceString Name=WindowsColorsSetting}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xE713;}"

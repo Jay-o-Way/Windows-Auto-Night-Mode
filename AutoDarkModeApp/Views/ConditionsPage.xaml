@@ -45,7 +45,7 @@
                 </controls:SettingsExpander>
 
                 <!--  ProcessBlockList  -->
-                <controls:SettingsExpander HeaderIcon="{ui:FontIcon Glyph=&#xECAA;}">
+                <controls:SettingsExpander HeaderIcon="{ui:FontIcon Glyph=&#xECAA;, MirroredWhenRightToLeft=True}">
                     <controls:SettingsExpander.Header>
                         <CheckBox
                             x:Name="BlockListCheckBox"
